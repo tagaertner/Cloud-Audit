@@ -22,7 +22,7 @@ throughout rather than to actually run in production.
 
 ## Status
 
-🚧 Infrastructure and security architecture complete. Scanner logic in progress.
+🚧 Infrastructure and security working progress. Scanner logic TBA.
 
 ## Documentation
 
