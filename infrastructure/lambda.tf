@@ -16,6 +16,10 @@ resource "aws_lambda_function" "cloud_audit_function"{
         apply_on = "PublishedVersions"
     }
 
+    dead_letter_config {
+        target_arn = aws_sqs_queue.scan_dlq.arn
+    }
+
 }
 
 resource "aws_lambda_alias" "live"{
