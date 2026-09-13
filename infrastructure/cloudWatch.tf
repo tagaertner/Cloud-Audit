@@ -12,6 +12,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_errors" {
   period              = 300
   statistic           = "Sum"
   threshold           = 3
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.cloud_audit_function.function_name
@@ -27,6 +28,7 @@ resource "aws_cloudwatch_metric_alarm" "duration_alarm" {
   period              = 300
   statistic           = "Maximum"
   threshold           = 25000
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.cloud_audit_function.function_name
@@ -43,6 +45,7 @@ resource "aws_cloudwatch_metric_alarm" "throttle_alarm" {
   period              = 300
   statistic           = "Sum"
   threshold           = 1
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     FunctionName = aws_lambda_function.cloud_audit_function.function_name
@@ -58,6 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_throttle_alarm" {
   period              = 300
   statistic           = "Sum"
   threshold           = 1
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     TableName = aws_dynamodb_table.cloud_audit.name
@@ -73,6 +77,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_4xx_alarm" {
   period              = 300
   statistic           = "Sum"
   threshold           = 10
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     ApiId = aws_apigatewayv2_api.cloud_audit_api_gateway.id
@@ -88,6 +93,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_5xx_alarm" {
   period              = 300
   statistic           = "Sum"
   threshold           = 1
+  alarm_actions       = [aws_sns_topic.cloud_audit_alerts.arn]
 
   dimensions = {
     ApiId = aws_apigatewayv2_api.cloud_audit_api_gateway.id
