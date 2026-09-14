@@ -99,3 +99,32 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_5xx_alarm" {
     ApiId = aws_apigatewayv2_api.cloud_audit_api_gateway.id
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "cloud_audit_anomaly_detection" {
+  alarm_name                = "Cloud-Audit-Waste-Anomaly-Alarm"
+  comparison_operator       = "LessThanLowerOrGreaterThanUpperThreshold"
+  evaluation_periods        = 2
+  threshold_metric_id       = "e1"
+  alarm_description         = "Anomaly detection on estimated monthly cloud waste"
+  alarm_actions             = [aws_sns_topic.cloud_audit_alerts.arn]
+  insufficient_data_actions = []
+
+  metric_query {
+    id          = "e1"
+    return_data = true
+    expression  = "ANOMALY_DETECTION_BAND(m1)"
+    label       = "Estimated Monthly Waste (Expected)"
+  }
+
+  metric_query {
+    id          = "m1"
+    return_data = true
+    metric {
+      metric_name = "TotalEstimatedWaste"
+      namespace   = "CloudAudit/Application"
+      period      = 120
+      stat        = "Average"
+
+    }
+  }
+}
